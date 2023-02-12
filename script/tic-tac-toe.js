@@ -4,7 +4,7 @@ const scoreDisplay = document.querySelector('.score');
 let gameActive = true;
 let playerScore = 0;
 let computerScore = 0;
-let currentPlayer = "X";
+let currentPlayer = Math.random() < 0.5 ? "X" : "O";
 let gameState = ["", "", "", "", "", "", "", "", ""];
 
 const winningMessage = () => `Player ${currentPlayer} has won!`;
@@ -15,6 +15,8 @@ const scoreMessage = () => `Player: ${playerScore} Computer: ${computerScore}`;
 statusDisplay.innerHTML = currentPlayerTurn();
 console.log(currentPlayerTurn());
 scoreDisplay.innerHTML = scoreMessage();
+
+computerTurn();
 
 const winningConditions = [
     [0, 1, 2],
@@ -28,22 +30,24 @@ const winningConditions = [
 ];
 
 function computerTurn() {
-    if (!gameActive) {
+    if (!gameActive || currentPlayer === 'X') {
         return;
     }
     
-    let emptyCells = [];
-    for (let i = 0; i < gameState.length; i++) {
-        if (gameState[i] === "") {
-            emptyCells.push(i);
+    setTimeout(() => {
+        let emptyCells = [];
+        for (let i = 0; i < gameState.length; i++) {
+            if (gameState[i] === "") {
+                emptyCells.push(i);
+            }
         }
-    }
-    
-    let randomIndex = Math.floor(Math.random() * emptyCells.length);
-    let cellIndex = emptyCells[randomIndex];
-    let clickedCell = document.querySelectorAll('.cell')[cellIndex];
-    handleCellPlayed(clickedCell, cellIndex);
-    handleResultValidation();
+        
+        let randomIndex = Math.floor(Math.random() * emptyCells.length);
+        let cellIndex = emptyCells[randomIndex];
+        let clickedCell = document.querySelectorAll('.cell')[cellIndex];
+        handleCellPlayed(clickedCell, cellIndex);
+        handleResultValidation();
+    }, 500);
 }
 
 function updateScore(player) {
@@ -67,11 +71,7 @@ function handlePlayerChange() {
     statusDisplay.innerHTML = currentPlayerTurn();
     console.log(currentPlayerTurn());
 
-    if (currentPlayer === "O") {
-        setTimeout(() => {
-            computerTurn();
-        }, 500);
-    }
+    computerTurn();
 }
 
 function handleResultValidation() {
@@ -134,13 +134,17 @@ function handleRestartGame() {
     document.querySelectorAll('.cell').forEach(cell => {
         cell.style.backgroundColor = "";
     });
+    
     gameActive = true;
-    currentPlayer = "X";
+    currentPlayer = Math.random() < 0.5 ? "X" : "O";
     gameState = ["", "", "", "", "", "", "", "", ""];
     statusDisplay.style.color = "rgb(65, 65, 65)";
     statusDisplay.innerHTML = currentPlayerTurn();
     document.querySelectorAll('.cell').forEach(cell => cell.innerHTML = "");
     console.log('New game started');
+    console.log(currentPlayerTurn());
+
+    computerTurn();
 }
 
 document.querySelectorAll('.cell').forEach(cell => cell.addEventListener('click', handleCellClick));
