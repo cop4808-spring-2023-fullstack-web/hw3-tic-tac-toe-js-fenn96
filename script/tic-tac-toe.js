@@ -21,6 +21,25 @@ const winningConditions = [
     [2, 4, 6]
 ];
 
+function computerTurn() {
+    if (!gameActive) {
+    return;
+    }
+    
+    let emptyCells = [];
+    for (let i = 0; i < gameState.length; i++) {
+        if (gameState[i] === "") {
+            emptyCells.push(i);
+        }
+    }
+    
+    let randomIndex = Math.floor(Math.random() * emptyCells.length);
+    let cellIndex = emptyCells[randomIndex];
+    let clickedCell = document.querySelectorAll('.cell')[cellIndex];
+    handleCellPlayed(clickedCell, cellIndex);
+    handleResultValidation();
+}
+
 function handleCellPlayed(clickedCell, clickedCellIndex) {
     gameState[clickedCellIndex] = currentPlayer;
     clickedCell.innerHTML = currentPlayer;
@@ -29,6 +48,12 @@ function handleCellPlayed(clickedCell, clickedCellIndex) {
 function handlePlayerChange() {
     currentPlayer = currentPlayer === "X" ? "O" : "X";
     statusDisplay.innerHTML = currentPlayerTurn();
+
+    if (currentPlayer === "O") {
+        setTimeout(() => {
+            computerTurn();
+        }, 500);
+    }
 }
 
 function handleResultValidation() {
