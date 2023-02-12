@@ -1,14 +1,20 @@
 const statusDisplay = document.querySelector('.status');
+const scoreDisplay = document.querySelector('.score');
 
 let gameActive = true;
+let playerScore = 0;
+let computerScore = 0;
 let currentPlayer = "X";
 let gameState = ["", "", "", "", "", "", "", "", ""];
 
 const winningMessage = () => `Player ${currentPlayer} has won!`;
 const drawMessage = () => `Game ended in a draw!`;
 const currentPlayerTurn = () => `It's ${currentPlayer}'s turn`;
+const scoreMessage = () => `Player: ${playerScore} Computer: ${computerScore}`;
 
 statusDisplay.innerHTML = currentPlayerTurn();
+console.log(currentPlayerTurn());
+scoreDisplay.innerHTML = scoreMessage();
 
 const winningConditions = [
     [0, 1, 2],
@@ -23,7 +29,7 @@ const winningConditions = [
 
 function computerTurn() {
     if (!gameActive) {
-    return;
+        return;
     }
     
     let emptyCells = [];
@@ -40,14 +46,26 @@ function computerTurn() {
     handleResultValidation();
 }
 
+function updateScore(player) {
+    if (player === 'X') {
+        playerScore += 1;
+    } else if (player === 'O') {
+        computerScore += 1;
+    }
+    scoreDisplay.innerHTML = scoreMessage();
+    console.log(scoreMessage());
+}
+
 function handleCellPlayed(clickedCell, clickedCellIndex) {
     gameState[clickedCellIndex] = currentPlayer;
     clickedCell.innerHTML = currentPlayer;
+    console.log(`${currentPlayer} played position ${clickedCellIndex}`);
 }
 
 function handlePlayerChange() {
     currentPlayer = currentPlayer === "X" ? "O" : "X";
     statusDisplay.innerHTML = currentPlayerTurn();
+    console.log(currentPlayerTurn());
 
     if (currentPlayer === "O") {
         setTimeout(() => {
@@ -76,6 +94,7 @@ function handleResultValidation() {
 
     if (roundWon) {
         statusDisplay.innerHTML = winningMessage();
+        console.log(winningMessage());
         gameActive = false;
         statusDisplay.style.color = "rgb(251,100,204)";
 
@@ -83,12 +102,14 @@ function handleResultValidation() {
             document.querySelector(`.cell[data-cell-index="${index}"]`).style.backgroundColor = "rgb(251,100,204)";
         });
 
+        updateScore(currentPlayer);
         return;
     }
 
     let roundDraw = !gameState.includes("");
     if (roundDraw) {
         statusDisplay.innerHTML = drawMessage();
+        console.log(drawMessage());
         gameActive = false;
         statusDisplay.style.color = "rgb(251,100,204)";
         return;
@@ -119,6 +140,7 @@ function handleRestartGame() {
     statusDisplay.style.color = "rgb(65, 65, 65)";
     statusDisplay.innerHTML = currentPlayerTurn();
     document.querySelectorAll('.cell').forEach(cell => cell.innerHTML = "");
+    console.log('New game started');
 }
 
 document.querySelectorAll('.cell').forEach(cell => cell.addEventListener('click', handleCellClick));
