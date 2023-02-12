@@ -58,6 +58,7 @@ function handlePlayerChange() {
 
 function handleResultValidation() {
     let roundWon = false;
+    let winIndexes;
     for (let i = 0; i <= 7; i++) {
         const winCondition = winningConditions[i];
         let a = gameState[winCondition[0]];
@@ -68,7 +69,8 @@ function handleResultValidation() {
         }
         if (a === b && b === c) {
             roundWon = true;
-            break
+            winIndexes = winCondition;
+            break;
         }
     }
 
@@ -76,6 +78,11 @@ function handleResultValidation() {
         statusDisplay.innerHTML = winningMessage();
         gameActive = false;
         statusDisplay.style.color = "rgb(251,100,204)";
+
+        winIndexes.forEach(index => {
+            document.querySelector(`.cell[data-cell-index="${index}"]`).style.backgroundColor = "rgb(251,100,204)";
+        });
+
         return;
     }
 
@@ -103,6 +110,9 @@ function handleCellClick(clickedCellEvent) {
 }
 
 function handleRestartGame() {
+    document.querySelectorAll('.cell').forEach(cell => {
+        cell.style.backgroundColor = "";
+    });
     gameActive = true;
     currentPlayer = "X";
     gameState = ["", "", "", "", "", "", "", "", ""];
