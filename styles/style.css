@@ -1,46 +1,109 @@
+html,
 body {
-    font-family: "Arial", sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
-section {
-    text-align: center;
+body {
+    color: rgb(65, 65, 65);
+    background-color: rgb(255, 255, 255);
+    font-family: Helvetica, sans-serif;
+    display: flex;
+    flex-direction: column;
+    place-items: center;
+    user-select: none;
+}
+
+.header {
+    font-size: 2.5em;
+    font-weight: 800;
+    margin-top: 2.4rem;
+    margin-bottom: 0.6rem;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    margin: 3rem 0 1rem 0;
 }
 
 .cell {
-    width: 100px;
-    height: 100px;
-    border: 1px solid #000000;
+    width: 6rem;
+    height: 6rem;
+    border: 6px solid rgb(65, 65, 65);
+    margin: -6px 0 0 -6px;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 6rem;
+    font-size: 6rem;
     cursor: pointer;
-    line-height: 100px;
-    font-size: 60px;
+    
 }
 
-.game--title {
-    font-size: 100px;
-    color: #d7a62f;
-    margin: 10px auto;
+a {
+    text-decoration: underline;
+    color: black;
 }
 
-.game--container {
-    display: grid;
-    grid-template-columns: repeat(3, auto);
-    width: 306px;
-    margin: 10px auto;
-    color: #04c0b2;
+a:visited {
+    color: black;
 }
 
-.game--status {
-    font-size: 50px;
-    color: #d7a62f;
-    margin: 20px auto;
+/*************************************/
+/******        Game Status       *****/
+/*************************************/
+.status {
+    color: rgb(65, 65, 65);
+    /* color: orangered; */
+    font-size: 1.2rem;
+    font-weight: 600;
 }
 
-.game--restart {
-    background-color: #f7e4ac;
-    width: 200px;
-    height: 50px;
-    font-size: 25px;
-    color: #5586e2;
-    box-shadow: 2px 2px 2px 2px #d86c23;
-    border: 2px solid #d86c23;
+/*************************************/
+/******       Reload Button      *****/
+/*************************************/
+.restart {
+    color: rgb(65, 65, 65);
+    background-color: rgb(231, 231, 231);
+    font-size: 1.2rem;
+    font-weight: 600;
+    order: 1;
+    margin: 2rem;
+    padding: 0.8rem;
+    border: 0;
+    border-radius: 40px;
+    width: 8rem;
+    cursor: pointer;
+}
+
+.restart:hover {
+    color: rgb(255, 255, 255);
+    background-color: rgb(185, 185, 185);
+    box-shadow: 0 5px 15px rgba(167, 167, 167, 0.4);
+
+}
+
+/*************************************/
+/******         Footer           *****/
+/*************************************/
+footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+  
+footer > p {
+    margin: 1.6rem;
+    font-size: 1.2rem;
+    font-weight: 500;
+    letter-spacing: 0.2rem;
+}
+  
+a,
+a:visited {
+    color: black;
+}
+  
+#heart {
+    font-size: 1.6rem;
 }
